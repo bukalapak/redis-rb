@@ -71,6 +71,7 @@ available on [RubyDoc.info][rubydoc].
 The client by default already implement circuit breaker with the default parameters. To change these parameters, you need to declare it at the beginning :
 ```ruby
 redis = Redis.new(
+    logger: Logger.new(STDOUT)
     failure_threshold: 10,
     failure_timeout: 10,
     invocation_timeout: 10,
