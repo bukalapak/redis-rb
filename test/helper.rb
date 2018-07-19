@@ -206,6 +206,7 @@ class RedisError < StandardError
 end
 
 class Redis
+  
   def fails
     @client.fails
   end
@@ -213,6 +214,7 @@ end
 
 class Redis
   class Client
+
     def fails
       raise RedisError, "redis error"
     end
