@@ -214,20 +214,24 @@ end
 
 class Redis
   class Client
-
+    include CircuitBreaker
+    
     def fails
-      raise RedisError, "redis error"
+      raise RedisError, 'redis error'
     end
 
     circuit_method :fails
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::WARN
-    circuit_handler do |handler|
-      handler.logger = logger
-      handler.failure_threshold = 10
-      handler.failure_timeout = 10
-      handler.invocation_timeout = 10
-      handler.excluded_exceptions = [RuntimeError]
+
+    def _init_circuit_breaker(options)
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::WARN
+      ::Redis::Client.circuit_handler do |handler|
+        handler.logger = logger
+        handler.failure_threshold = 10
+        handler.failure_timeout = 10
+        handler.invocation_timeout = 10
+        handler.excluded_exceptions = [RuntimeError]
+      end
     end
   end
 end
