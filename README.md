@@ -66,6 +66,19 @@ redis.get("mykey")
 All commands, their arguments, and return values are documented and
 available on [RubyDoc.info][rubydoc].
 
+## Circuit Breaker
+
+The client by default already implement circuit breaker with the default parameters. To change these parameters, you need to declare it at the beginning :
+```ruby
+redis = Redis.new(
+    failure_threshold: 10,
+    failure_timeout: 10,
+    invocation_timeout: 10,
+    excluded_exceptions: [RuntimeException],
+  )
+```
+For more detailed explanation what each parameter does, checkout the documentation.
+
 ## Sentinel support
 
 The client is able to perform automatic failover by using [Redis
