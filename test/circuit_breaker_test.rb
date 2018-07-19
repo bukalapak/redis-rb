@@ -39,5 +39,5 @@ class TestCircuit < Test::Unit::TestCase
     end
     sleep 11
     assert_equal 'PONG', r.call('PING')
-    end
+  end
 end
