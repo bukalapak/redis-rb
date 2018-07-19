@@ -215,8 +215,9 @@ class Redis
   class Client
     def fails
       raise RedisError, "redis error"
-    end
     
+    end
+
     circuit_method :fails
     logger = Logger.new(STDOUT)
     logger.level = Logger::WARN
