@@ -215,7 +215,6 @@ class Redis
   class Client
     def fails
       raise RedisError, "redis error"
-    
     end
 
     circuit_method :fails
