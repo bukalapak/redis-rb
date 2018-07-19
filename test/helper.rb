@@ -201,12 +201,15 @@ module Helper
     end
   end
 end
+
 class RedisError < StandardError  
-end  
+end
+
 class Redis
   def fails
     @client.fails
   end
+  
 end
 
 class Redis
