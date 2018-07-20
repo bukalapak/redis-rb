@@ -376,5 +376,5 @@ requests. You can also ask for help at `#redis-rb` on Freenode.
 [redis-url]:       http://www.iana.org/assignments/uri-schemes/prov/redis
 [travis-home]:     https://travis-ci.org/
 [travis-image]:    https://secure.travis-ci.org/redis/redis-rb.svg?branch=master
-[travis-link]:     https://travis-ci.org/redis/redis-rb
+[travis-link]:     https://travis-ci.org/bukalapak/redis-rb
 [rubydoc]:         http://www.rubydoc.info/gems/redis
