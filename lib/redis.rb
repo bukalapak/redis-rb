@@ -35,8 +35,8 @@ class Redis
   # @option options [Class] : circuit_logger (STDOUT) Class of logger
   # @option options [Fixnum] : failure_threshold (10) number of total failure allowed for client before circuit opened
   # @option options [Fixnum] : failure_timeout (10) timeout for circuit breaker before the circuit is closed again in seconds
-  # @option options [Fixnum] : invocation_timeout (10) time out for function call in seconds
-  # @option options [Fixnum] : excluded_exceptions ([RuntimeError]) error to be excluded from circuit breaker
+  # @option options [Fixnum] : invocation_timeout (10) time out for function call before the invocation is considered as failed in seconds
+  # @option options [Fixnum] : excluded_exceptions ([RuntimeError]) error or exception to be excluded from circuit breaker
   #
   # @return [Redis] a new client instance
   def initialize(options = {})
