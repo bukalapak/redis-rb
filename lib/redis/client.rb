@@ -104,7 +104,8 @@ class Redis
         else
           Connector.new(@options)
         end
-      _init_circuit_breaker(@options)
+      
+      init_circuit_breaker(@options)
       register_prom
     end
 
@@ -522,7 +523,7 @@ class Redis
     circuit_method :connected?, :connect, :establish_connection
 
     # Initialize parameter for circuit breaker
-    def _init_circuit_breaker(options)  
+    def init_circuit_breaker(options)  
       # Define a circuit handler for circuit breaker
       ::Redis::Client.circuit_handler do |handler|
         handler.logger = options[:circuit_logger]
