@@ -2,6 +2,7 @@ require_relative "errors"
 require "socket"
 require "cgi"
 require "circuit_breaker"
+require 'prometheus/client'
 
 
 class Redis
@@ -28,6 +29,7 @@ class Redis
       :invocation_timeout => 10,
       :failure_percentage_minimum => 1,
       :excluded_exceptions => [RuntimeError],
+      :service_name => "unknown service"
     }
 
     attr_reader :options
@@ -83,6 +85,7 @@ class Redis
     attr_accessor :logger
     attr_reader :connection
     attr_reader :command_map
+    attr_accessor :metric
 
     def initialize(options = {})
       @options = _parse_options(options)
@@ -101,7 +104,8 @@ class Redis
         else
           Connector.new(@options)
         end
-        _init_circuit_breaker(@options)
+      _init_circuit_breaker(@options)
+      register_prom
     end
 
     def connect
@@ -378,6 +382,7 @@ class Redis
           end
         else
           connect
+          contact_prom(true)
         end
 
         yield
@@ -389,9 +394,29 @@ class Redis
         else
           raise
         end
+      rescue CircuitBreaker::CircuitBrokenException
+        contact_prom(false)
+        disconnect
+        raise
       rescue Exception
         disconnect
         raise
+      end
+    end
+
+    def register_prom 
+      prometheus = Prometheus::Client.registry
+      prometheus.unregister(:redis_circuit_breaker_trips_total) if prometheus.exist?(:redis_circuit_breaker_trips_total)
+      @metric = Prometheus::Client::Counter.new(:redis_circuit_breaker_trips_total, "Counter for the amount of circuit braker trips")
+      prometheus.register(@metric)
+    end
+
+    def contact_prom(condition)
+      case condition
+      when true
+        @metric.increment({service: @options[:service_name], status: "open"})
+      when false
+        @metric.increment({service: @options[:service_name], status: "closed"})
       end
     end
 
