@@ -24,7 +24,7 @@ class TestCircuit < Test::Unit::TestCase
       r.call('PING')
     }
     assert_equal exception.message, 'Circuit broken, please wait for timeout'
-    sleep 11
+    sleep 2
   end
 
   def test_success
@@ -37,7 +37,7 @@ class TestCircuit < Test::Unit::TestCase
       rescue RedisError
       end
     end
-    sleep 11
+    sleep 2
     assert_equal 'PONG', r.call('PING')
   end
 end

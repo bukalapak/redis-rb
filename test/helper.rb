@@ -228,7 +228,7 @@ class Redis
       ::Redis::Client.circuit_handler do |handler|
         handler.logger = logger
         handler.failure_threshold = 10
-        handler.failure_timeout = 10
+        handler.failure_timeout = 1
         handler.invocation_timeout = 10
         handler.excluded_exceptions = [RuntimeError]
       end
