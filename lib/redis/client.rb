@@ -86,6 +86,7 @@ class Redis
     attr_reader :connection
     attr_reader :command_map
     attr_accessor :metric
+    attr_accessor :prometheus
 
     def initialize(options = {})
       @options = _parse_options(options)
@@ -126,6 +127,14 @@ class Redis
 
     def id
       @options[:id] || "redis://#{location}/#{db}"
+    end
+
+    def metrics
+      @metric
+    end
+
+    def prometheus
+      @prometheus
     end
 
     def location
@@ -406,8 +415,8 @@ class Redis
     end
 
     def register_prom 
-      prometheus = Prometheus::Client.registry
-      prometheus.unregister(:redis_circuit_breaker_trips_total) if prometheus.exist?(:redis_circuit_breaker_trips_total)
+      @prometheus = Prometheus::Client.registry
+      @prometheus.unregister(:redis_circuit_breaker_trips_total) if @prometheus.exist?(:redis_circuit_breaker_trips_total)
       @metric = Prometheus::Client::Counter.new(:redis_circuit_breaker_trips_total, "Counter for the amount of circuit braker trips")
       prometheus.register(@metric)
     end

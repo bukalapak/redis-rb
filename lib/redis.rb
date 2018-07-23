@@ -2827,6 +2827,18 @@ class Redis
     @original_client.id
   end
 
+  def metrics
+    synchronize do |client|
+      client.metrics
+    end
+  end
+
+  def prometheus
+    synchronize do |client|
+      client.prometheus
+    end    
+  end
+
   def inspect
     "#<Redis client v#{Redis::VERSION} for #{id}>"
   end

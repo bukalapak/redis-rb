@@ -222,7 +222,7 @@ class Redis
 
     circuit_method :fails
 
-    def _init_circuit_breaker(options)
+    def init_circuit_breaker(options)
       logger = Logger.new(STDOUT)
       logger.level = Logger::WARN
       ::Redis::Client.circuit_handler do |handler|
