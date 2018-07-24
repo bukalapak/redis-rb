@@ -78,6 +78,12 @@ redis = Redis.new(
     excluded_exceptions: [RuntimeException],
   )
 ```
+- `circuit_logger :  Logger.new(STDOUT)` : Class of logger
+- `failure_threshold : 10` : number of total failure allowed for client before circuit opened
+- `failure_timeout : 10` : timeout for circuit breaker before the circuit is closed again in seconds
+- `invocation_timeout : 10` : time out for function call before the invocation is considered as failed in seconds
+- `excluded_exceptions : [RuntimeError]` : error or exception to be excluded from circuit breaker
+
 For more detailed explanation what each parameter does, checkout the documentation.
 
 ## Sentinel support
