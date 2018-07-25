@@ -417,7 +417,7 @@ class Redis
     def register_prom 
       @prometheus = Prometheus::Client.registry
       @prometheus.unregister(:redis_circuit_breaker_trips_total) if @prometheus.exist?(:redis_circuit_breaker_trips_total)
-      @metric = Prometheus::Client::Counter.new(:redis_circuit_breaker_trips_total, "Counter for the amount of circuit braker trips")
+      @metric = Prometheus::Client::Counter.new(:redis_circuit_breaker_trips_total, "Counter for the amount of circuit breaker trips")
       prometheus.register(@metric)
     end
 
